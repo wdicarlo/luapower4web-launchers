@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+LUAPOWER_HOME=../..
+
+if [ ! $# -gt 0 ]; then
+    echo "Web application to start not specified"
+    echo "Please, specify one of the following:"
+    ls -1 $LUAPOWER_HOME/web|xargs -I@ basename @
+    exit
+fi
+
+
+
+WEB_HOME=$LUAPOWER_HOME/web/$1
+
+if [ ! -d "$WEB_HOME" ]; then
+    echo "Missing WEB_HOME folder: $WEB_HOME"
+    exit
+fi
+cd "$WEB_HOME"
+LUA_PATH="$LUAPOWER_HOME/?.lua;$LUAPOWER_HOME/?/?.lua" LUA_CPATH="$LUAPOWER_HOME/bin/linux64/?.so;$LUAPOWER_HOME/bin/linux64/clib/?.so" $LUAPOWER_HOME/luajit start.lua
